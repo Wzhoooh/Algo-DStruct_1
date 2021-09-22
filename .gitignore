@@ -1,0 +1,5 @@
+*.exe
+*.vscode
+forward_list.hpp
+forward_list_impl.hpp
+main.cpp
