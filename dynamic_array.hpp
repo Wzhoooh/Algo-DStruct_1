@@ -265,14 +265,17 @@ public:
     
     void resize(size_type count)
     {
-        if (!(count <= size()))
-            throw std::out_of_range(std::string("DynArr::resize: count > this.size() (which is ") + 
-                    std::to_string(size()) + ")");
-
-        for (size_type i = count; i < size(); i++)
-            traits<Allocator>::destroy(_alloc, _p + i);
-
-        _size = count;
+        if (count < size())
+        {
+            for (size_type i = count; i < size(); i++)
+                traits<Allocator>::destroy(_alloc, _p + i);
+        
+            _size = count;
+        }
+        
+        else if (count > size())
+            for (; size() < count;)
+                push_back(value_type());
     }
 
 private:
