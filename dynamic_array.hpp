@@ -142,7 +142,7 @@ public:
 
     allocator_type get_allocator() const noexcept
     {
-        return traits<Allocator>::select_on_container_copy_construction(_alloc);
+        _alloc;
     }
 
     // iterators
