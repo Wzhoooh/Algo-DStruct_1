@@ -6,6 +6,7 @@
 #include <string>
 #include <cmath>
 #include <initializer_list>
+#include <cstddef>
 
 
 // https://en.cppreference.com/w/cpp/container/vector
@@ -16,15 +17,16 @@ public:
     // member types
     typedef T value_type;
     typedef Allocator allocator_type;
-    typedef size_t size_type;
+    typedef std::size_t size_type;
+    typedef std::ptrdiff_t difference_type;
     typedef value_type& reference;
     typedef const value_type& const_reference;
     typedef typename std::allocator_traits<Allocator>::pointer pointer;
     typedef typename std::allocator_traits<Allocator>::const_pointer const_pointer;
 
 private:
-template < typename Alloc >
-using traits = std::allocator_traits<Alloc>;
+    template < typename Alloc >
+    using traits = std::allocator_traits<Alloc>;
 
 public:
     // member functions
@@ -216,7 +218,7 @@ public:
             traits<Allocator>::deallocate(_alloc, _p, capacity());
             _p = newP;
             _size++;
-            _cap = calcCapacity(size());
+            _cap = newCap;
         }
     }
     
@@ -265,6 +267,18 @@ public:
     
     void resize(size_type count)
     {
+        if (!(count <= size()))
+            throw std::out_of_range(std::string("DynArr::resize: count > this.size() (which is ") + 
+                    std::to_string(size()) + ")");
+
+        for (size_type i = count; i < size(); i++)
+            traits<Allocator>::destroy(_alloc, _p + i);
+    
+        _size = count;
+    }
+
+    void resize(size_type count, const T& val)
+    {
         if (count < size())
         {
             for (size_type i = count; i < size(); i++)
@@ -272,10 +286,9 @@ public:
         
             _size = count;
         }
-        
         else if (count > size())
             for (; size() < count;)
-                push_back(value_type());
+                push_back(val);
     }
 
 private:
