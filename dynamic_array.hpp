@@ -43,7 +43,7 @@ public:
             DynArr(alloc)
     {
         _cap = calcCapacity(count);
-        _p = traits<Allocator>::allocate(_alloc, sizeof(value_type) * capacity());
+        _p = traits<Allocator>::allocate(_alloc, capacity());
         for (size_type i = 0; i < count; i++)
             push_back(value);
         
@@ -54,7 +54,7 @@ public:
             DynArr(alloc)
     {
         _cap = calcCapacity(count);
-        _p = traits<Allocator>::allocate(_alloc, sizeof(value_type) * capacity());
+        _p = traits<Allocator>::allocate(_alloc, capacity());
         for (size_type i = 0; i < count; i++)
             push_back(value_type());
 
@@ -64,7 +64,7 @@ public:
     DynArr(const DynArr& other): DynArr(other.get_allocator())
     {
         _cap = calcCapacity(other.size());
-        _p = traits<Allocator>::allocate(_alloc, sizeof(value_type) * capacity());
+        _p = traits<Allocator>::allocate(_alloc, capacity());
         for (size_type i = 0; i < other.size(); i++)
             push_back(other.at(i));
     }
@@ -72,7 +72,7 @@ public:
     DynArr(const DynArr& other, const Allocator& alloc): DynArr(alloc)
     {
         _cap = calcCapacity(other.size());
-        _p = traits<Allocator>::allocate(_alloc, sizeof(value_type) * capacity());
+        _p = traits<Allocator>::allocate(_alloc, capacity());
         for (size_type i = 0; i < other.size(); i++)
             push_back(other.at(i));
 
@@ -82,7 +82,7 @@ public:
     DynArr(DynArr&& other) noexcept: DynArr(other.get_allocator())
     {
         _cap = calcCapacity(other.size());
-        _p = traits<Allocator>::allocate(_alloc, sizeof(value_type) * capacity());
+        _p = traits<Allocator>::allocate(_alloc, capacity());
         for (size_type i = 0; i < other.size(); i++)
             push_back(std::move_if_noexcept(other.at(i)));
 
@@ -92,7 +92,7 @@ public:
     DynArr(DynArr&& other, const Allocator& alloc): DynArr(alloc)
     {
         _cap = calcCapacity(other.size());
-        _p = traits<Allocator>::allocate(_alloc, sizeof(value_type) * capacity());
+        _p = traits<Allocator>::allocate(_alloc, capacity());
         for (size_type i = 0; i < other.size(); i++)
             push_back(std::move_if_noexcept(other.at(i)));
 
@@ -103,7 +103,7 @@ public:
             DynArr(alloc)
     {
         _cap = calcCapacity(init.size());
-        _p = traits<Allocator>::allocate(_alloc, sizeof(value_type) * capacity());
+        _p = traits<Allocator>::allocate(_alloc, capacity());
         for (auto i = init.begin(); i != init.end(); i++)
             push_back(*i);
     }
@@ -169,7 +169,7 @@ public:
     void shrink_to_fit()
     {
         auto newCap = size();
-        auto newP = traits<Allocator>::allocate(_alloc, sizeof(value_type) * newCap);
+        auto newP = traits<Allocator>::allocate(_alloc, newCap);
         for (size_type i = 0; i < size(); i++)
             traits<Allocator>::construct(_alloc, newP + i, std::move_if_noexcept(_p[i]));
 
@@ -201,7 +201,7 @@ public:
         else
         {
             auto newCap = calcCapacity(size() + 1);
-            auto newP = traits<Allocator>::allocate(_alloc, sizeof(value_type) * newCap);
+            auto newP = traits<Allocator>::allocate(_alloc, newCap);
             try
             {
                 traits<Allocator>::construct(_alloc, newP + size(), value);
@@ -232,7 +232,7 @@ public:
         else
         {
             auto newCap = calcCapacity(size() + 1);
-            auto newP = traits<Allocator>::allocate(_alloc, sizeof(value_type) * newCap);
+            auto newP = traits<Allocator>::allocate(_alloc, newCap);
             try
             {
                 traits<Allocator>::construct(_alloc, newP + size(), std::move(value));
