@@ -10,5 +10,16 @@
 + "Динамический массив": https://en.cppreference.com/w/cpp/container/vector
 + "Односвязный список": https://en.cppreference.com/w/cpp/container/forward_list
 + "Стек": https://en.cppreference.com/w/cpp/container/stack
-<Enter>
+
+
+
 Если поведение реализованных методов контейнера не соответствует представленному выше стандарту, значит в моем коде ошибка.
+
+  
+  
+  
+P.S. Компиляция: 
+```bat
+g++ --std c++17 main.cpp
+``` 
+из папки проекта.
