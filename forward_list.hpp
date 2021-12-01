@@ -169,18 +169,18 @@ public:
     {}
 
     explicit ForwardList(const Allocator& alloc):
-            _alloc(traits<Allocator>::select_on_container_copy_construction(_alloc))
+            _alloc(traits<Allocator>::select_on_container_copy_construction(alloc))
     {}
 
     ForwardList(size_type count, const T& value, const Allocator& alloc = Allocator()):
-            _alloc(traits<Allocator>::select_on_container_copy_construction(_alloc))
+            _alloc(traits<Allocator>::select_on_container_copy_construction(alloc))
     {
         for (size_type i = 0; i < count; i++)
             push_front(value);
     }
     
     explicit ForwardList(size_type count, const Allocator& alloc = Allocator()):
-            _alloc(traits<Allocator>::select_on_container_copy_construction(_alloc))
+            _alloc(traits<Allocator>::select_on_container_copy_construction(alloc))
     {
         for (size_type i = 0; i < count; i++)
             push_front(value_type());
@@ -193,7 +193,7 @@ public:
     }
     
     ForwardList(const ForwardList& other, const Allocator& alloc):
-            _alloc(traits<Allocator>::select_on_container_copy_construction(_alloc))
+            _alloc(traits<Allocator>::select_on_container_copy_construction(alloc))
     {
         for (auto iTh = before_begin(), iOt = other.begin(); iOt != other.end(); iTh++, iOt++)
             insert_after(iTh, *iOt);
@@ -206,14 +206,14 @@ public:
     }
     
     ForwardList(ForwardList&& other, const Allocator& alloc):
-            _alloc(traits<Allocator>::select_on_container_copy_construction(_alloc))
+            _alloc(traits<Allocator>::select_on_container_copy_construction(alloc))
     {
         _beforeBegin._getNodePointer()->next = other._beforeBegin._getNodePointer()->next;
         other._beforeBegin._getNodePointer()->next = nullptr;
     }
     
     ForwardList(std::initializer_list<T> init, const Allocator& alloc = Allocator()):
-            _alloc(traits<Allocator>::select_on_container_copy_construction(_alloc))
+            _alloc(traits<Allocator>::select_on_container_copy_construction(alloc))
     {
         for (auto iTh = before_begin(), iIn = init.begin(); iIn != init.end(); iTh++, iIn++)
             insert_after(iTh, *iIn);
